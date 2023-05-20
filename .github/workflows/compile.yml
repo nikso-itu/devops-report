@@ -1,5 +1,8 @@
 name: Build LaTeX document
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - '*.pdf'
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -11,3 +14,5 @@ jobs:
         with:
           root_file: main.tex
           latexmk_shell_escape: true
+      - name: Move PDF to root
+        run: mv ${{ github.workspace }}/main.pdf ${{ github.workspace }}/output.pdf
