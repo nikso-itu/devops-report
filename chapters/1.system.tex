@@ -19,25 +19,36 @@ This section describes the different dependencies used in our application, and w
 We use Docker\footnote{\href{https://www.docker.com/}{docker.com}} to containerize all of our dependencies, into convenient images which are far easier to transport and deploy. Without utilizing containerization, like Docker offers, it would be a struggle to keep track of every tool we use and all the technologies their depend on, and it would require a lot of steps every time we would have to run our application. Docker allows us to package everything together, and lets us run everything from one single command. The reason for using Docker, over other containerization tools such as Kubernetes, is because we already have experience using Docker from previous courses, and because it offers all the functionality we need for our application.
 
 \paragraph*{Go \& Gin}
-We choose to utilize Gin\footnote{\href{https://gin-gonic.com/}{gin-gonic.com}} for our web-application. Gin is an web framework written in Go/Golang, which allows for development of fast and stable web services. We choose to use Gin as it's faster than many other web development frameworks, including Flask which is the original framework that the MiniTwit application was using. We wanted our web framework to support HTML rendering, and to support the use of relational databases, as we wanted to be able to reuse as much of the original MiniTWit application as possible. Gin supports both of these features while being scalable and offering type safety, which is important for writing maintainable code, and therefore we though that Gin was very suitible for our MiniTwit application. Additionally we also saw this project as an perfect opportunity to learn Go, and to use Gin.
+We choose to utilize Gin\footnote{\href{https://gin-gonic.com/}{gin-gonic.com}} for our web-application. Gin is an web framework written in Go/Golang, which allows for development of fast and stable web services. We choose to use Gin as it's faster than many other web development frameworks, including Flask which is the original framework that the MiniTwit application was using. We wanted our web framework to support HTML rendering, and to support the use of relational databases, as we wanted to be able to reuse as much of the original MiniTwit application as possible. Gin supports both of these features while being scalable and offering type safety, which is important for writing maintainable code, and therefore we though that Gin was very suitable for our MiniTwit application. Additionally we also saw this project as an perfect opportunity to learn Go, and to use Gin.
 
 \paragraph*{Gorm}
 In Go, one of the most popular ORM libraries is Gorm\footnote{\href{https://gorm.io/}{gorm.io}}. We chose this library because it is one of the most mature libraries we could choose out of the possible ones for Go. Gorm has the basic ORM features we needed like creation, update, and deletion of database objects. With Gorm we could create objects in Go that has the fields needed for the database.
 
 \paragraph*{Vagrant}
+We utilize Vagrant\footnote{\href{https://www.vagrantup.com/}{vagrantup.com}} in our project to easily configure and deploy the virtual machine that is running the application, onto the server at DigitalOcean. Vagrant allows us to give an generic description of the virtual machine we need, which it uses to create the virtual machine. This alleviates us from having to use manual programs such as VirtualBox where we would have to click around a UI. By automating this process we also alleviate the risk of making a mistake every time we setup up our VM, as everything is done the same way every time. Another reason for picking Vagrant over other alternatives, is because Vagrant is very flexible and can utilize a lot of different containerization platforms, and integrates well with different development ecosystems. Additionally it also works on all the common operating systems such as Windows, macOS and Linux.
+
 \paragraph*{Prometheus \& Grafana}
+We use Prometheus\footnote{\href{https://prometheus.io/}{prometheus.io}} to gain valuable insight about our Minitwit application for the following reasons: Prometheus supports a wide range of metrics. Prometheus works well with the Go programming language. Prometheus can easily be integrated with dashboard tools such as Grafana\footnote{\href{https://grafana.com/}{grafana.com}}. Prometheus can alert the team in the event that any metrics surpasses certain thresholds. Furthermore, Grafana simply visualizes the metrics to create a good overview of all the important metrics. We chose Grafana because it is easy to create a dashboard that only has to be configured once.
+
 \paragraph*{Elasticsearch, Filebeat \& Kibana}
 To facilitate logging in our Minitwit application, we decided to implement an EFK stack. The EFK stack is a great fit for our Minitwit application as it provides a lightweight log shipper in Filebeat which can collect logs from the application, parse them and forward them to a storage component. It provides an efficient storage and analytics engine in Elastic search, which enables efficient handling of large data volumes and is excellent for full-text search. Lastly, it provides a simple to setup dashboard in Kibana that allows for filtering queries on the data stores in elastic search, such that we only display the data that we find most valuable. 
 
 \paragraph*{DigitalOcean}
-We have DigitalOcean as our cloud infrastructure provider. DigitalOcean offers a user-friendly interface for setting up and deploying Droplets (VMs) and Volumes (storage). In general, it is known for its simplicity and affordability which makes it ideal for our Minitwit application.
+We have DigitalOcean\footnote{\href{https://www.digitalocean.com/}{digitalocean.com}} as our cloud infrastructure provider. DigitalOcean offers a user-friendly interface for setting up and deploying Droplets (VMs) and Volumes (storage). In general, it is known for its simplicity and affordability which makes it ideal for our Minitwit application.
 
 \paragraph*{Github \& GH Actions}
 To facilitate our CI/CD workflow we utilize GitHub Actions because it is integrated in GitHub, which is the version control system we use for our repository. This way we don't have to involve other platforms, and we can keep everything in one place. Also, since it is integrated in GitHub, we can see the status of individual commits when we push them. This way we can see whether individual commits build (or contain errors), and we can see whether individual commits pass tests. Lastly, it allows for Continuous Delivery and Deployment, which means we can automate the delivery or deployment of our changes all with the same system.
 
-
-%Check the licenses are compatible
-
 \subsection{Current state of the system}
+At the time of writing (20-05-2023) our static code analysis tools report the following:
+\begin{itemize}
+    \item \textbf{Sonarcloud}: Latest pull request passed with 0 bugs, 0 vulnerabilities, 0 security hotspots and 10 code smells. We have assessed the code smells and decided to ignore them as they are insignificant.
+    \item \textbf{Snyk}: It is currently disabled as it caused issues that blocked our CI/CD chain. We have not prioritized to fix the underlying problem as we believe the other code analysis tools provide a satisfying coverage of potential security vulnerabilities.
+    \item \textbf{CodeQL}: Latest deployment passed CodeQL in the CI/CD chain.
+    \item \textbf{Dependabot}: No active pull requests for vulnerable dependencies.
+    \item \textbf{Lint for Go}: Latest deployment passed Lint in the CI/CD chain.
+\end{itemize}
 
-%license included
+\subsection{License compatibility}
+Our project is under GPL 3.0 which is compatible\footnote{\href{https://www.gnu.org/licenses/license-list.en.html}{gnu.org/licenses/license-list.en.html}} with all dependencies, namely: \textit{MIT License}, \textit{GNU Affero General Public License v3.0}, \textit{Apache License 2.0}, \textit{Server Side Public License}, \textit{ISC}, \textit{BSD-3-Clause}. 
+
