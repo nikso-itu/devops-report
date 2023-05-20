@@ -16,10 +16,14 @@ jobs:
         with:
           root_file: main.tex
           latexmk_shell_escape: true
+      - name: Move and rename
+        run: |
+          mkdir -p build
+          mv main.pdf build/MSc_group_n.pdf
       - name: Commit report
         run: |
           git config --global user.name 'Mansin-ITU'
           git config --global user.email 'beth@itu.dk'
-          git add main.pdf
+          git add build/MSc_group_n.pdf
           git commit -m "Automated pdf"
           git push
