@@ -24,7 +24,7 @@ To track releases and provide visibility into the version history, we utilize th
 For our CI/CD setup, we leveraged the capabilities of GitHub Actions to automate the verification process when code is merged into the main branch. GitHub Actions allows us to define custom workflows that encompasses various stages of our pipeline. Within these workflows, we incorporated essential steps to ensure code quality and reliability.
 
 Firstly, the actions execute unit tests to validate the functionality of our codebase, ensuring that it meets the expected behavior. Secondly, we integrated static analysis tools into the workflow, specifically Lint for Go, Snyk, CodeQL, and SonarCloud. These third-party services thoroughly analyze our code to detect potential security vulnerabilities, code smells, and many other potential issues, assisting in maintaining a high level of code quality. 
-Lastly, once all the checks pass successfully, GitHub automatically builds a Docker image of our project and deploy it to our hosting service. This ensures that the latest version of the application is available to the users.
+Lastly, once all the checks pass successfully, GitHub automatically builds a Docker image of our project and deploys it to our hosting service. This ensures that the latest version of the application is available to the users.
 
 To further enhance our development workflow, we integrated GitHub Actions with the pull request feature. This integration enables us to run tests and analysis on proposed changes before merging them into the main branch, minimizing the risk of introducing faulty code into the main branch.
 
@@ -47,7 +47,7 @@ We use a Grafana dashboard to display the data collected for each metric through
     \label{fig:grafana_dashboard}
 \end{figure}
 
-The logging system we have implemented is an EFK stack consisting of Elasticsearch, Filebeat and Kibana. We used the \textit{Zap} package for Go to nicely format and emit log messages that Filebeat collects. We have two types of log messages, the first being the native Gin Gonic log messages that happen for every request. The second one is the log messages that we have implemented in the code, which are formatted by \textit{Zap} in JSON as follows (values are examples):
+The logging system we have implemented is an EFK stack consisting of Elasticsearch, Filebeat and Kibana. We used the \textit{Zap} package for Go to nicely format and emit log messages that Filebeat collects. We have two types of log messages, the first being the native Ginlog messages that happen for every request. The second one is the log messages that we have implemented in the code, which are formatted by \textit{Zap} in JSON as follows (values are examples):
 
 \begin{figure}[H]
     \begin{footnotesize}
@@ -96,4 +96,4 @@ None of the assessed risks are placed inside the problematic area in the risk as
 \subsection{Scaling \& redundancy} \label{sec:scaling}
 To ensure fault tolerance we introduced redundancy in the form of a replica. We created an additional droplet on DigitalOcean and changed our Vagrantfile accordingly to have identical instances running on each of the droplets. One of the instances act as the primary one, for which all traffic is directed to. The other instance serves as a backup. With the use of heartbeats the server can keep track of the primary replicas state, and should it fail to show signs of life, the backup replica will take over as primary.
 
-In addition to fault tolerance, having a primary and backup replica also enables rolling updates which eliminates the inevitable downtime caused from deploying updates. We did not get around to do it for this project, but we had a plan of how we wanted to do it. In order to increase our availability, we will first be updating the backup replica and make it our primary server, then we can shut down the replica which was previously the primary one and update it as well. DigitalOcean will make this easy as it automatically switches the primary server to be the replica which is running.
+In addition to fault tolerance, having a primary and backup replica also enables rolling updates which eliminates the inevitable downtime caused from deploying updates. We did not get around to do it for this project, but we had a plan of how we wanted to do it. In order to increase our availability, we will first be updating the backup replica and make it our primary server, then we can shut down the replica which was previously the primary one and update it as well. We facilitate this process by using DigitalOcean's API to automatically switch the primary server to the running replica.
